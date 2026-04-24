@@ -1,0 +1,149 @@
+[
+  {
+    "pc": "300240",
+    "address": "13-15 Maverick Square",
+    "city": "East Boston",
+    "zip": "02128",
+    "gh_id": "3003674"
+  },
+  {
+    "pc": "300353",
+    "address": "152 Washington St",
+    "city": "Salem",
+    "zip": "01970",
+    "gh_id": "5595536"
+  },
+  {
+    "pc": "300368",
+    "address": "266 Concord St.",
+    "city": "Framingham",
+    "zip": "01702",
+    "gh_id": "2560357"
+  },
+  {
+    "pc": "300662",
+    "address": "951 Bennington St",
+    "city": "East Boston",
+    "zip": "02128",
+    "gh_id": "3003749"
+  },
+  {
+    "pc": "302800",
+    "address": "334 Waverly St.",
+    "city": "Framingham",
+    "zip": "01702",
+    "gh_id": "2560464"
+  },
+  {
+    "pc": "304216",
+    "address": "68 Boston St",
+    "city": "Salem",
+    "zip": "01970",
+    "gh_id": "5594904"
+  },
+  {
+    "pc": "308377",
+    "address": "14 McGrath Hwy",
+    "city": "Somerville",
+    "zip": "02143",
+    "gh_id": "3003944"
+  },
+  {
+    "pc": "330278",
+    "address": "123 Union St.",
+    "city": "Ashland",
+    "zip": "01721",
+    "gh_id": "2560864"
+  },
+  {
+    "pc": "331845",
+    "address": "31 Main St.",
+    "city": "Milford",
+    "zip": "01757",
+    "gh_id": "2561073"
+  },
+  {
+    "pc": "332501",
+    "address": "1 Bennington St",
+    "city": "Revere",
+    "zip": "02151",
+    "gh_id": "3003673"
+  },
+  {
+    "pc": "336411",
+    "address": "1001 Cambridge St",
+    "city": "Cambridge",
+    "zip": "02141",
+    "gh_id": "3004039"
+  },
+  {
+    "pc": "336463",
+    "address": "350 East Main St.",
+    "city": "Milford",
+    "zip": "01757",
+    "gh_id": "2560787"
+  },
+  {
+    "pc": "336711",
+    "address": "555 North Shore Rd",
+    "city": "Revere",
+    "zip": "02151",
+    "gh_id": "3003748"
+  },
+  {
+    "pc": "337721",
+    "address": "20 Main St",
+    "city": "Winthrop",
+    "zip": "02152",
+    "gh_id": "3003667"
+  },
+  {
+    "pc": "340571",
+    "address": "441 Washington St.",
+    "city": "Holliston",
+    "zip": "01746",
+    "gh_id": "2561059"
+  },
+  {
+    "pc": "343217",
+    "address": "146 South Main St.",
+    "city": "Milford",
+    "zip": "01757",
+    "gh_id": "2560566"
+  },
+  {
+    "pc": "348201",
+    "address": "41 Lee Burbank Hwy",
+    "city": "Revere",
+    "zip": "02151",
+    "gh_id": "3003668"
+  },
+  {
+    "pc": "350754",
+    "address": "190 Pond St.",
+    "city": "Ashland",
+    "zip": "01721",
+    "gh_id": "2560465"
+  },
+  {
+    "pc": "353410",
+    "address": "117 West Central St. Unit A",
+    "city": "Natick",
+    "zip": "01760",
+    "gh_id": "2560241"
+  },
+  {
+    "pc": "354691",
+    "address": "3 Nicholas Rd.",
+    "city": "Framingham",
+    "zip": "01701",
+    "gh_id": "2560457"
+  },
+  {
+    "pc": "356473",
+    "address": "354-356 Bennington St",
+    "city": "East Boston",
+    "zip": "02128",
+    "gh_id": "3004608"
+  }
+]

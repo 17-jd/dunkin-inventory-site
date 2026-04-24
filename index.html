@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dunkin' Fleet Inventory Check</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  :root {
+    --bg: #fdf6ec;
+    --ink: #3a2a1a;
+    --ink-soft: #7a6351;
+    --pink: #ff5fa2;
+    --pink-deep: #d63f85;
+    --brown: #5a2e12;
+    --cream: #fff8ef;
+    --line: #e8d9c4;
+    --green: #2d8659;
+    --green-soft: #e5f5ec;
+    --amber: #c47a00;
+    --amber-soft: #fff1d6;
+    --red: #b83a3a;
+    --red-soft: #fce4e4;
+    --gray: #6e6e6e;
+    --gray-soft: #f0ece6;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Fraunces', Georgia, serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+  header {
+    padding: 48px 24px 32px;
+    text-align: center;
+    border-bottom: 1px solid var(--line);
+    background: var(--cream);
+  }
+  header .brand {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--pink-deep);
+    margin-bottom: 12px;
+  }
+  header h1 {
+    margin: 0;
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  header p {
+    margin: 8px 0 0;
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+  .checker {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+  }
+  .btn-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+  #checkBtn {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 18px 44px;
+    background: var(--pink);
+    color: white;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 var(--pink-deep), 0 12px 24px rgba(214, 63, 133, 0.25);
+    transition: transform 0.08s ease, box-shadow 0.08s ease;
+    letter-spacing: -0.01em;
+  }
+  #checkBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 var(--pink-deep), 0 14px 30px rgba(214, 63, 133, 0.3);
+  }
+  #checkBtn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 var(--pink-deep), 0 6px 12px rgba(214, 63, 133, 0.2);
+  }
+  #checkBtn:disabled {
+    background: var(--gray);
+    box-shadow: 0 4px 0 #555;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-soft);
+    text-align: center;
+    min-height: 18px;
+  }
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .tile {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 16px;
+    text-align: center;
+  }
+  .tile .num {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .tile .lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: 6px;
+  }
+  .tile.good .num { color: var(--green); }
+  .tile.issue .num { color: var(--red); }
+  .tile.closed .num { color: var(--gray); }
+  .tile.time .num { font-size: 22px; font-weight: 600; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 18px;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .card:hover {
+    transform: translateY(-1px);
+    border-color: var(--pink);
+  }
+  .card.issue { border-color: var(--red); }
+  .card.closed { opacity: 0.75; }
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .card-title {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  .card-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+  .badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  .badge.open { background: var(--green-soft); color: var(--green); }
+  .badge.closed { background: var(--gray-soft); color: var(--gray); }
+  .badge.err { background: var(--red-soft); color: var(--red); }
+  .stats {
+    display: flex;
+    gap: 16px;
+    margin: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+  .stats .chip {
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: var(--cream);
+    border: 1px solid var(--line);
+  }
+  .stats .chip.bad {
+    background: var(--red-soft);
+    border-color: var(--red);
+    color: var(--red);
+    font-weight: 600;
+  }
+  .section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 12px 0 6px;
+  }
+  ul.unavail {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  ul.unavail li {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    background: var(--red-soft);
+    color: var(--red);
+    padding: 4px 8px;
+    border-radius: 6px;
+  }
+  .donuts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 4px;
+  }
+  .donut {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 3px 7px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+  }
+  .donut.ok { background: var(--green-soft); border-color: var(--green); color: var(--green); }
+  .donut.out { background: var(--red-soft); border-color: var(--red); color: var(--red); text-decoration: line-through; }
+  .empty {
+    text-align: center;
+    padding: 60px 24px;
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+  .loader {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--pink);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin-right: 6px;
+    vertical-align: -2px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  footer {
+    text-align: center;
+    padding: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Dunkin' Fleet</div>
+  <h1>Inventory Check</h1>
+  <p>Live availability across 21 stores on Grubhub</p>
+</header>
+
+<main class="checker">
+  <div class="btn-row">
+    <button id="checkBtn" type="button">Check Store Inventory</button>
+  </div>
+  <div id="meta" class="meta"></div>
+
+  <div id="tiles" class="tiles" hidden></div>
+  <div id="grid" class="grid"></div>
+  <div id="empty" class="empty">
+    Hit the button to pull the latest availability from Grubhub.
+  </div>
+</main>
+
+<footer>dunkin' fleet monitor &middot; data via grubhub public api</footer>
+
+<script>
+  const btn = document.getElementById('checkBtn');
+  const meta = document.getElementById('meta');
+  const tiles = document.getElementById('tiles');
+  const grid = document.getElementById('grid');
+  const empty = document.getElementById('empty');
+
+  function fmtPc(pc) { return `PC ${pc}`; }
+
+  function severity(s) {
+    if (s.error) return 'err';
+    if (s.open === false) return 'closed';
+    if ((s.itemsUnavail || 0) > 0 || (s.variantsUnavail || 0) > 0) return 'issue';
+    return 'ok';
+  }
+
+  function escape(t) {
+    return String(t ?? '').replace(/[&<>"]/g, (c) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'
+    }[c]));
+  }
+
+  function renderTiles(fleet) {
+    tiles.hidden = false;
+    tiles.innerHTML = `
+      <div class="tile"><div class="num">${fleet.total}</div><div class="lbl">Total</div></div>
+      <div class="tile good"><div class="num">${fleet.open}</div><div class="lbl">Open Now</div></div>
+      <div class="tile closed"><div class="num">${fleet.closed}</div><div class="lbl">Closed</div></div>
+      <div class="tile issue"><div class="num">${fleet.withIssues}</div><div class="lbl">With Issues</div></div>
+    `;
+  }
+
+  function renderCard(s) {
+    const sev = severity(s);
+    const badge =
+      sev === 'err' ? `<span class="badge err">Error</span>` :
+      sev === 'closed' ? `<span class="badge closed">Closed</span>` :
+      `<span class="badge open">Open</span>`;
+
+    const stats = s.error
+      ? `<div class="stats"><div class="chip bad">${escape(s.error)}</div></div>`
+      : `<div class="stats">
+          <div class="chip">${s.itemsTotal || 0} items</div>
+          <div class="chip ${(s.itemsUnavail || 0) > 0 ? 'bad' : ''}">${s.itemsUnavail || 0} out</div>
+          <div class="chip">${s.variantsTotal || 0} variants</div>
+          <div class="chip ${(s.variantsUnavail || 0) > 0 ? 'bad' : ''}">${s.variantsUnavail || 0} out</div>
+        </div>`;
+
+    const unavailItems = (s.unavailItems || []).length
+      ? `<div class="section-title">Unavailable items</div>
+         <ul class="unavail">${s.unavailItems.map((n) => `<li>${escape(n)}</li>`).join('')}</ul>`
+      : '';
+
+    const unavailVariants = (s.unavailVariants || []).length
+      ? `<div class="section-title">Unavailable variants</div>
+         <ul class="unavail">${s.unavailVariants.slice(0, 15).map((n) => `<li>${escape(n)}</li>`).join('')}
+         ${s.unavailVariants.length > 15 ? `<li>+${s.unavailVariants.length - 15} more</li>` : ''}
+         </ul>`
+      : '';
+
+    const donuts = (s.donutFlavors || []).length
+      ? `<div class="section-title">Donut flavors</div>
+         <div class="donuts">${s.donutFlavors.map((d) =>
+           `<span class="donut ${d.available ? 'ok' : 'out'}">${escape(d.name)}</span>`
+         ).join('')}</div>`
+      : '';
+
+    return `
+      <article class="card ${sev === 'issue' ? 'issue' : ''} ${sev === 'closed' ? 'closed' : ''}">
+        <div class="card-head">
+          <div>
+            <div class="card-title">${escape(s.address)}</div>
+            <div class="card-sub">${escape(s.city)} &middot; ${fmtPc(s.pc)} &middot; gh ${escape(s.gh_id)}</div>
+          </div>
+          ${badge}
+        </div>
+        ${stats}
+        ${unavailItems}
+        ${unavailVariants}
+        ${donuts}
+      </article>
+    `;
+  }
+
+  async function check() {
+    btn.disabled = true;
+    const originalLabel = btn.textContent;
+    btn.innerHTML = '<span class="loader"></span> Checking...';
+    meta.textContent = 'Fetching 21 stores in parallel...';
+    empty.style.display = 'none';
+
+    const t0 = performance.now();
+    try {
+      const res = await fetch('/api/check');
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      const elapsed = ((performance.now() - t0) / 1000).toFixed(1);
+
+      renderTiles(data.fleet);
+
+      // Sort: issues first, then open, then closed, then errors
+      const order = { issue: 0, ok: 1, closed: 2, err: 3 };
+      const sorted = data.stores.slice().sort((a, b) => {
+        const sa = severity(a), sb = severity(b);
+        if (order[sa] !== order[sb]) return order[sa] - order[sb];
+        return String(a.pc).localeCompare(String(b.pc));
+      });
+
+      grid.innerHTML = sorted.map(renderCard).join('');
+      meta.textContent =
+        `Done in ${elapsed}s · server ${data.elapsed_ms}ms · fetched ` +
+        new Date(data.fetched_at).toLocaleString();
+    } catch (e) {
+      empty.style.display = 'block';
+      empty.textContent = 'Failed: ' + e.message;
+      meta.textContent = '';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = originalLabel;
+    }
+  }
+
+  btn.addEventListener('click', check);
+</script>
+</body>
+</html>

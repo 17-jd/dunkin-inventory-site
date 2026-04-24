@@ -1,0 +1,9 @@
+{
+  "name": "dunkin-inventory-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "One-click inventory check across a 21-store Dunkin' fleet, via Grubhub's public API",
+  "engines": {
+    "node": ">=18"
+  }
+}
