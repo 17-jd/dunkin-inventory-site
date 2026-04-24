@@ -3,7 +3,9 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Dunkin' Fleet Inventory Check</title>
+<title>Dunkin' Fleet Inventory Check &middot; Jaydip Dungarani</title>
+<meta name="author" content="Jaydip Dungarani" />
+<meta name="description" content="One-click live inventory check across a 21-store Dunkin' fleet on Grubhub. Built by Jaydip Dungarani." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
@@ -271,12 +273,36 @@
 
   footer {
     text-align: center;
-    padding: 24px;
+    padding: 28px 24px 36px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: 1px;
     color: var(--ink-soft);
+    border-top: 1px solid var(--line);
+    margin-top: 32px;
+    background: var(--cream);
+  }
+  footer .line1 {
     text-transform: uppercase;
+    font-size: 10px;
+    margin-bottom: 8px;
+  }
+  footer .line2 {
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--ink);
+  }
+  footer a {
+    color: var(--pink-deep);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s ease;
+  }
+  footer a:hover {
+    border-bottom-color: var(--pink-deep);
   }
 </style>
 </head>
@@ -300,7 +326,12 @@
   </div>
 </main>
 
-<footer>dunkin' fleet monitor &middot; data via grubhub public api</footer>
+<footer>
+  <div class="line1">dunkin' fleet monitor &middot; data via grubhub public api</div>
+  <div class="line2">
+    Built by <a href="https://jaydipdungarani.com" target="_blank" rel="noopener">Jaydip Dungarani</a>
+  </div>
+</footer>
 
 <script>
   const btn = document.getElementById('checkBtn');
